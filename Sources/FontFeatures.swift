@@ -199,8 +199,8 @@
             let featureSettings = self.featureSettings()
             return featureSettings.map {
                 return [
-                    BONFontFeatureTypeIdentifierKey: $0.type,
-                    BONFontFeatureSelectorIdentifierKey: $0.selector,
+                    NSAttributedStringKey(rawValue: BONFontFeatureTypeIdentifierKey.rawValue): $0.type,
+                    NSAttributedStringKey(rawValue: BONFontFeatureSelectorIdentifierKey.rawValue): $0.selector,
                     ]
             }
         }

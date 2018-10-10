@@ -46,7 +46,7 @@ extension AdaptiveStyle: AdaptiveStyleTransformation {
     }
 
     func embed(in attributes: StyleAttributes) -> StyleAttributes {
-        guard let font = attributes[NSFontAttributeName] as? BONFont else {
+        guard let font = attributes[NSAttributedStringKey.font.rawValue] as? BONFont else {
             print("No font to adapt, ignoring adaptive style")
             return attributes
         }
@@ -80,7 +80,7 @@ extension AdaptiveStyle: AdaptiveStyleTransformation {
         case .below(let size, let family):
             font = pointSize < size ? font.fontWithSameAttributes(named: family) : font
         }
-        styleAttributes[NSFontAttributeName] = font
+        styleAttributes[NSAttributedStringKey.font.rawValue] = font
         return styleAttributes
     }
 
@@ -157,7 +157,6 @@ extension AdaptiveStyle {
 }
 
 extension AdaptiveStyle: EmbeddedTransformation {
-
     struct Key {
 
         static let fontName = "fontName"
@@ -180,13 +179,13 @@ extension AdaptiveStyle: EmbeddedTransformation {
             return [
                 EmbeddedTransformationHelpers.Key.type: Value.above,
                 EmbeddedTransformationHelpers.Key.size: size,
-                Key.fontName: family,
+                NSAttributedStringKey(rawValue: Key.fontName): family,
             ]
         case let .below(size, family):
             return [
                 EmbeddedTransformationHelpers.Key.type: Value.below,
                 EmbeddedTransformationHelpers.Key.size: size,
-                Key.fontName: family,
+                NSAttributedStringKey(rawValue: Key.fontName): family,
             ]
         case .control:
             return [EmbeddedTransformationHelpers.Key.type: Value.control]
@@ -197,10 +196,10 @@ extension AdaptiveStyle: EmbeddedTransformation {
         }
     }
 
-    static func from(dictionary dict: [String: StyleAttributeValue]) -> EmbeddedTransformation? {
+    static func from(dictionary dict: StyleAttributes) -> EmbeddedTransformation? {
         switch (dict[EmbeddedTransformationHelpers.Key.type] as? String,
                 dict[EmbeddedTransformationHelpers.Key.size] as? CGFloat,
-                dict[Key.fontName] as? String) {
+                dict[NSAttributedStringKey(rawValue: Key.fontName)] as? String) {
         case (Value.control?, nil, nil):
             return AdaptiveStyle.control
         case (Value.body?, nil, nil):

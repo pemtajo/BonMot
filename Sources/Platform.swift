@@ -24,9 +24,9 @@
 
     public typealias BONFont = UIFont
     public typealias BONFontDescriptor = UIFontDescriptor
-    let BONFontDescriptorFeatureSettingsAttribute = UIFontDescriptorFeatureSettingsAttribute
-    let BONFontFeatureTypeIdentifierKey = UIFontFeatureTypeIdentifierKey
-    let BONFontFeatureSelectorIdentifierKey = UIFontFeatureSelectorIdentifierKey
+    let BONFontDescriptorFeatureSettingsAttribute = UIFontDescriptor.AttributeName.featureSettings
+    let BONFontFeatureTypeIdentifierKey = UIFontDescriptor.FeatureKey.featureIdentifier
+    let BONFontFeatureSelectorIdentifierKey = UIFontDescriptor.FeatureKey.typeIdentifier
 
     #if os(iOS) || os(tvOS)
         public typealias BONTextField = UITextField
@@ -39,7 +39,7 @@
     public typealias StyleAttributeValue = AnyObject
 #endif
 
-public typealias StyleAttributes = [String: StyleAttributeValue]
+public typealias StyleAttributes = [NSAttributedStringKey: StyleAttributeValue]
 
 #if os(iOS) || os(tvOS)
     #if swift(>=3.0)
@@ -52,4 +52,4 @@ public typealias StyleAttributes = [String: StyleAttributeValue]
 #endif
 
 // This key is defined here because it needs to be used in non-adaptive code.
-public let BonMotTransformationsAttributeName = "BonMotTransformations"
+public let BonMotTransformationsAttributeName = NSAttributedStringKey(rawValue: "BonMotTransformations")

@@ -80,7 +80,7 @@ extension StringStyle {
     public var attributes: StyleAttributes {
         var theAttributes = extraAttributes
 
-        theAttributes.update(possibleValue: font, forKey: NSFontAttributeName)
+        theAttributes.update(possibleValue: font, forKey: NSAttributedStringKey.font.rawValue)
         theAttributes.update(possibleValue: link, forKey: NSLinkAttributeName)
         theAttributes.update(possibleValue: backgroundColor, forKey: NSBackgroundColorAttributeName)
         theAttributes.update(possibleValue: color, forKey: NSForegroundColorAttributeName)
@@ -118,7 +118,7 @@ extension StringStyle {
 
         #if os(iOS) || os(tvOS) || os(OSX)
             // Apply the features to the font present
-            let preFeaturedFont = theAttributes[NSFontAttributeName] as? BONFont
+            let preFeaturedFont = theAttributes[NSAttributedStringKey.font.rawValue] as? BONFont
             var featureProviders = fontFeatureProviders
 
             featureProviders += [numberCase].flatMap { $0 }
@@ -133,7 +133,7 @@ extension StringStyle {
             featureProviders += [contextualAlternates as FontFeatureProvider]
 
             let featuredFont = preFeaturedFont?.font(withFeatures: featureProviders)
-            theAttributes.update(possibleValue: featuredFont, forKey: NSFontAttributeName)
+            theAttributes.update(possibleValue: featuredFont, forKey: NSAttributedStringKey.font.rawValue)
         #endif
 
         #if os(iOS) || os(tvOS)
@@ -145,8 +145,8 @@ extension StringStyle {
 
         // Apply tracking
         if let tracking = tracking {
-            let styledFont = theAttributes[NSFontAttributeName] as? BONFont
-            theAttributes.update(possibleValue: tracking.kerning(forFont: styledFont), forKey: NSKernAttributeName)
+            let styledFont = theAttributes[NSAttributedStringKey.font.rawValue] as? BONFont
+            theAttributes.update(possibleValue: tracking.kerning(forFont: styledFont), forKey: NSAttributedStringKey.kern.rawValue)
             #if os(iOS) || os(tvOS)
                 // Add the tracking as an adaptation
                 theAttributes = EmbeddedTransformationHelpers.embed(transformation: tracking, to: theAttributes)

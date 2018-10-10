@@ -34,10 +34,8 @@ internal protocol EmbeddedTransformation {
 internal enum EmbeddedTransformationHelpers {
 
     struct Key {
-
-        static let type = "type"
-        static let size = "size"
-
+        static let type = NSAttributedStringKey(rawValue: "type")
+        static let size = NSAttributedStringKey(rawValue: "size")
     }
 
     static var embeddedTransformationTypes: [EmbeddedTransformation.Type] = [AdaptiveStyle.self, Tracking.self, Tab.self]
